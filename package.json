@@ -1,0 +1,32 @@
+{
+  "name": "yellio-server",
+  "version": "0.0.0",
+  "description": "yellio communication app server",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --harmony"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/yellio/yellio-server.git"
+  },
+  "keywords": [
+    "webrtc",
+    "socket.io",
+    "koa",
+    "es6",
+    "communication",
+    "chat",
+    "videoconferencing"
+  ],
+  "author": "Dmitry Mazuro <dmitry.mazuro@icloud.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yellio/yellio-server/issues"
+  },
+  "homepage": "https://github.com/yellio/yellio-server",
+  "devDependencies": {
+    "gulp": "^3.6.1",
+    "mocha": "^1.18.2"
+  }
+}
