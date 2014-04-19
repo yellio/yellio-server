@@ -2,7 +2,7 @@
   "name": "yellio-server",
   "version": "0.0.0",
   "description": "yellio communication app server",
-  "main": "index.js",
+  "main": "lib/app.js",
   "scripts": {
     "test": "mocha --harmony"
   },
@@ -43,6 +43,9 @@
     "koa-logger": "^1.2.0",
     "koa-passport": "^0.2.0",
     "koa-router": "^3.1.2",
+    "passport-facebook": "^1.0.3",
+    "passport-google-oauth": "^0.1.5",
+    "passport-twitter": "^1.0.2",
     "socket.io": "^1.0.0"
   }
 }
