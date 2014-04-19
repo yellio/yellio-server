@@ -26,7 +26,17 @@
   },
   "homepage": "https://github.com/yellio/yellio-server",
   "devDependencies": {
+    "co-mocha": "0.0.2",
+    "coffee-script": "git://github.com/xixixao/coffee-script.git#35ca45d13a784af508095214547b8bd57b33a40c",
     "gulp": "^3.6.1",
-    "mocha": "^1.18.2"
+    "gulp-coffee-es6": "git://github.com/t3chnoboy/gulp-coffee-es6.git#d927a13a0c807f01166f1d17694694b776590080",
+    "mocha": "^1.18.2",
+    "should": "^3.3.1"
+  },
+  "dependencies": {
+    "co-redis": "^1.1.0",
+    "koa": "^0.5.5",
+    "koa-passport": "^0.2.0",
+    "socket.io": "^1.0.0"
   }
 }
