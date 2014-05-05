@@ -5,10 +5,10 @@ rooms = {}
 
 addUser = (user) ->
   if rooms[user.room]
-    rooms[user.room][user.name] = user.description
+    rooms[user.room][user.name] = user.id
   else
     newRoom = {}
-    newRoom[user.name] = user.description
+    newRoom[user.name] = user.id
     rooms[user.room] = newRoom
 
 removeUser = (user) ->
@@ -22,21 +22,26 @@ io.on 'connection', (socket) ->
   socket.on 'join room', (user) ->
 
     console.log "#{user.name} joins #{user.room}"
+    user.id = socket.id
     addUser user
     socket.join user.room
 
     socket.broadcast.to(user.room).emit 'user joined', user
+
+    # Update homepage stats
     socket.broadcast.emit 'availiable rooms', rooms
 
     socket.emit 'room info', rooms[user.room]
 
-    socket.on 'call request', (desc) ->
-      console.log "call request from #{user.name}"
-      socket.broadcast.to(user.room).emit 'incoming call', desc
+    socket.on 'call request', (data) ->
+      console.log "call request from #{user.name} to #{data.username}"
+      recipient = io.sockets.connected[rooms[user.room][data.username]]
+      recipient.emit 'incoming call', {desc: data.desc, username: user.name}
 
-    socket.on 'call accept', (desc) ->
-      console.log "call accept from #{user.name}"
-      socket.broadcast.to(user.room).emit 'call accepted', desc
+    socket.on 'call accept', (data) ->
+      console.log "#{user.name} accepts call from #{data.username}"
+      recipient = io.sockets.connected[rooms[user.room][data.username]]
+      recipient.emit 'call accepted', data.desc
 
     socket.on 'disconnect', ->
       console.log "#{user.name} disconnected"
@@ -44,9 +49,9 @@ io.on 'connection', (socket) ->
       removeUser user
       socket.broadcast.emit 'availiable rooms', rooms
 
-    socket.on 'send candidate', (candidate) ->
-      console.log "send candidate from #{user.name}"
-      socket.broadcast.to(user.room).emit 'ice candidate', candidate
+    socket.on 'send candidate', (data) ->
+      recipient = io.sockets.connected[rooms[user.room][data.username]]
+      recipient.emit 'ice candidate', data.candidate
 
 
 io.listen 3000
