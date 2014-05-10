@@ -33,10 +33,21 @@ io.on 'connection', (socket) ->
 
     socket.emit 'room info', rooms[user.room]
 
+    socket.on 'leave room', ->
+      console.log "#{user.name} leaves #{user.room}"
+      removeUser user
+      socket.broadcast.to(user.room).emit 'user disconnected', user.name
+      socket.emit 'availiable rooms', rooms
+
     socket.on 'call request', (data) ->
       console.log "call request from #{user.name} to #{data.username}"
       recipient = io.sockets.connected[rooms[user.room][data.username]]
       recipient.emit 'incoming call', {desc: data.desc, username: user.name}
+
+    socket.on 'renegotiation request', (data) ->
+      console.log "renegotiation request from #{user.name} to #{data.username}"
+      recipient = io.sockets.connected[rooms[user.room][data.username]]
+      recipient.emit 'renegotiation', {desc: data.desc, username: user.name}
 
     socket.on 'call accept', (data) ->
       console.log "#{user.name} accepts call from #{data.username}"
