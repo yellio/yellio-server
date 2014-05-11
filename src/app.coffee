@@ -13,6 +13,7 @@ addUser = (user) ->
 
 removeUser = (user) ->
   delete rooms[user.room][user.name]
+  delete rooms[user.room] if Object.keys(rooms[user.room]).length < 1
 
 io.on 'connection', (socket) ->
 
